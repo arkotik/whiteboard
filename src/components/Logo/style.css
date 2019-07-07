@@ -1,0 +1,114 @@
+.holder{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    height: 100%;
+    z-index: 1;
+}
+.logo-box {
+    width: 140px;
+    height: 100%;
+    margin-bottom: 5px;
+    margin-right: 25px;
+    position: relative;
+    -webkit-transform: rotate(170deg);
+    transform: rotate(170deg);
+    opacity: 1;
+}
+.triangle {
+    overflow: hidden;
+    width: 26px;
+    height: 28px;
+    -webkit-transform: rotate(90deg) skewY(30deg);
+    transform: rotate(90deg) skewY(30deg);
+    z-index: 2;
+    background-color: #be2e47;
+}
+.logo-box .triangle {
+    position: absolute;
+}
+.logo-box .top {
+    top: 0;
+    left: calc(50% - 31px);
+}
+.holder.animation .logo-box .top {
+    -webkit-animation: random .4s;
+    animation: random .4s;
+}
+.logo-box .left-left {
+    top: 31px;
+    left: calc(50% - 49px);
+}
+.holder.animation .logo-box .left-left {
+    -webkit-animation: random .5s;
+    animation: random .5s;
+}
+.logo-box .left-right {
+    top: 31px;
+    left: calc(50% - 15px);
+}
+.holder.animation .logo-box .left-right {
+    -webkit-animation: random .7s;
+    animation: random .7s;
+}
+.triangle:before {
+    display: block;
+    width: inherit;
+    height: inherit;
+    background-image: url(http://www.species-in-pieces.com/img/textured-ui/red-texture.png);
+    background-size: cover;
+    content: "";
+}
+.holder .heading {
+    margin-left: 0;
+    position: relative;
+    z-index: 3;
+    font-size: 1.8em;
+    font-weight: 700;
+    -webkit-animation: move .7s;
+    animation: move .7s;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    font-weight: bold;
+    color: #000000;
+}
+.logo-handler{
+    margin-top: -5px;
+}
+.holder .logo-text{
+    position: relative;
+    margin-left: 15px;
+    height: 100%;
+    font-size: 24px;
+}
+.holder .logo-text span{
+    display: block;
+    position: absolute;
+}
+.logo-text .word-red{
+    transform: rotate(-10deg) skewX(-30deg);
+    top: 19px;
+    left: 13px;
+}
+
+.logo-text .word-arrow{
+    transform: rotate(-10deg) skewX(-30deg);
+    top: 45px;
+    left: 0;
+    letter-spacing: 3px;
+}
+
+@keyframes random {
+    0% {
+        top: -200px;
+        left: 400px;
+    }
+}
