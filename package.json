@@ -21,6 +21,8 @@
     "socket.io-react": "^1.2.0"
   },
   "scripts": {
+    "pm2start": "pm2 start npm --name classroom-dev -- run port3016",
+    "port3016": "PORT=3016 npm -- run start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
