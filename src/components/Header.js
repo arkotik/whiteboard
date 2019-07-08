@@ -1,24 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { socketConnect } from 'socket.io-react';
 import { routes } from './RoutesConfig';
-// import Logo from './Logo';
 import { NavLink } from 'react-router-dom';
 
+const E_LOGOUT = 'logout';
+
 const Header = (props) => {
+  const { socket, logout, isLoggedIn, name } = props;
+  const doLogout = () => {
+    socket.emit(E_LOGOUT, { name });
+    logout();
+  };
   return <header>
-    {/*<div className='logo-handler'><Logo /></div>*/}
     <div className='navigation'>
       {routes.map(({ url, title }, i) => <NavLink key={i} to={url}>{title}</NavLink>)}
     </div>
-    {props.isLoggedIn && <div className={'logout-butt'}>
-      <button onClick={props.logout}>Logout</button>
+    {isLoggedIn && <div className={'logout-butt'}>
+      <button onClick={doLogout}>Logout</button>
     </div>}
   </header>;
 };
 
 Header.propTypes = {
+  socket: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired
 };
 
-export default Header;
+export default socketConnect(Header);

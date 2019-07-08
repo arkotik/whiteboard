@@ -11,7 +11,7 @@ class AppLayout extends Component {
     const { userData, logout } = this.props;
     return (
       <div id='app-layout'>
-        <Header logout={logout} isLoggedIn={userData.isLoggedIn} />
+        <Header logout={logout} isLoggedIn={userData.isLoggedIn} name={userData.name} />
         <div id='main-content'>
           <div className={'content-wrapper'}>
             <RoutesSwitch routes={routes} userData={userData} />

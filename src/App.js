@@ -52,7 +52,7 @@ class App extends Component {
   };
 
   componentWillMount() {
-    socket = io('http://localhost:3015', { transports: ['websocket'] });
+    socket = io('https://classroom.arkotik.com.ua', { transports: ['websocket'] });
     socket.on('connect', this.onSocketConnect);
   }
 

@@ -19,6 +19,7 @@ class Editor extends Component {
     const opponent = name === 'teacher' ? 'student' : 'teacher';
     this.me = name;
     this.opponent = opponent;
+    this.emit = true;
     this.state = {
       oppOnline: false
     };
@@ -50,9 +51,11 @@ class Editor extends Component {
   };
 
   onDataEvent = ({ name, data }) => {
-    if (name !== this.me) {
-      this.props.setData(name, data);
-    }
+    this.emit = false;
+    const { type, text } = data || {};
+    this.props.setData(type, text);
+    // if (name !== this.me) {
+    // }
   };
 
   onStatusEvent = ({ name, online }) => {
@@ -61,17 +64,21 @@ class Editor extends Component {
     }
   };
 
-  sendData = (data) => {
-    if (data) {
-      this.props.socket.emit(E_DATA, { name: this.me, data });
+  sendData = (type, text) => {
+    if (this.emit && type && text) {
+      this.props.socket.emit(E_DATA, { name: this.me, data: { type, text } });
     }
   };
 
   changeData = (name, text) => {
-    if (name === this.me) {
-      this.sendData(text);
+    if ('teacher' === this.me && name === this.me) {
+      this.sendData('teacher', text);
+    } else {
+      if (name === 'student') {
+        this.sendData('student', text);
+      }
     }
-    this.props.setData(name, text);
+    // this.props.setData(name, text);
   };
 
   clearAll = () => {
@@ -84,9 +91,25 @@ class Editor extends Component {
     this.props.clearData(name);
   };
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!this.emit) {
+      this.emit = true;
+    }
+  }
+
   render() {
     const { editorData } = this.props;
     const { oppOnline } = this.state;
+    const config = {
+      plugins: 'autolink link lists print image preview code',
+      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright code | forecolor backcolor',
+      min_height: 500,
+      height: '100%',
+      keep_styles: true,
+      relative_urls: false,
+      remove_script_host: false,
+      extended_valid_elements: 'span[class|style]'
+    };
     return (
       <div className='wrapper'>
         <div className='panel-top'>
@@ -95,34 +118,23 @@ class Editor extends Component {
         </div>
         <div className='editor-wrapper'>
           <div className="editor">
-            <MCE
+            {this.me === 'teacher' ? <MCE
               apiKey={'uode0yv09fxhf0u6wi02uckblk762nsqyia9qj2412hm7hhk'}
-              init={{
-                plugins: 'autolink link lists print preview code',
-                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright code',
-                min_height: 500,
-                extended_valid_elements: 'span[class]'
-              }}
-              value={editorData[this.me]}
-              onEditorChange={(content) => this.changeData(this.me, content)}
-            />
+              init={config}
+              value={editorData.teacher}
+              onEditorChange={(content) => this.changeData('teacher', content)}
+              disabled={this.me !== 'teacher'}
+            /> : <div className='raw-html' dangerouslySetInnerHTML={{ __html: editorData.teacher }} />}
             <div className='panel-bottom'>
               {this.me === 'teacher' && <div className='button clear-one' onClick={() => this.clearOne(this.me)}>Clear</div>}
             </div>
           </div>
-        </div>
-        <div className='editor-wrapper'>
-          <div className="editor">
+          <div className="editor common">
             <MCE
               apiKey={'uode0yv09fxhf0u6wi02uckblk762nsqyia9qj2412hm7hhk'}
-              init={{
-                plugins: 'autolink link lists print preview code',
-                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright code',
-                min_height: 500,
-                extended_valid_elements: 'span[class]'
-              }}
-              value={editorData[this.opponent]}
-              onEditorChange={(content) => this.changeData(this.opponent, content)}
+              init={config}
+              value={editorData.student}
+              onEditorChange={(content) => this.changeData('student', content)}
             />
 
             <div className='panel-bottom'>
