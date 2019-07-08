@@ -5,6 +5,7 @@ import storage from 'redux-persist/es/storage';
 import thunk from 'redux-thunk';
 import userReducer from '../reducers/user'
 import chatReducer from '../reducers/chat'
+import editorReducer from '../reducers/editor'
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -20,7 +21,7 @@ const config = {
   key: 'root',
   transforms: [],
   blacklist: [''],
-  whitelist: ['userData'],
+  whitelist: ['userData', 'editorData', 'chat'],
   storage
 };
 
@@ -28,6 +29,7 @@ export const makeRootReducer = (asyncReducers) => {
   return persistCombineReducers(config, {
     userData: userReducer,
     chat: chatReducer,
+    editorData: editorReducer,
     ...asyncReducers
   });
 };

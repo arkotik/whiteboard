@@ -1,9 +1,10 @@
 import Home from './HomePage';
 import Login from './LogIn';
-import Whiteboard from './Whiteboard';
+import { Drawer, Editor } from './Whiteboard';
 
 export {
   Home,
   Login,
-  Whiteboard
+  Drawer,
+  Editor
 };

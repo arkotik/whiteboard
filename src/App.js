@@ -6,10 +6,12 @@ import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
 import AppLayout from './layouts/AppLayout';
 import { loginUser, logoutUser } from './redux/actions/user';
+import { addMessage } from './redux/actions/chat';
 
 let socket = null;
 const E_AUTHORISE = 'authorise';
 const E_AUTHENTICATE = 'authenticate';
+const E_CHAT = 'chat';
 
 class App extends Component {
   constructor(props) {
@@ -18,12 +20,18 @@ class App extends Component {
   }
 
   onSocketConnect = () => {
+    socket.on(E_CHAT, this.onChatEvent);
     socket.on(E_AUTHORISE, this.onAuthoriseEvent);
     socket.on(E_AUTHENTICATE, this.onAuthenticateEvent);
     const { isLoggedIn, token, name } = this.props.userData;
     if (isLoggedIn) {
       socket.emit('authenticate', { token, name });
     }
+  };
+
+  onChatEvent = ({ name, message }) => {
+    const type = ['received', 'sent'][+(name === this.state.me)];
+    this.props.addMessage({ message, type });
   };
 
   onAuthoriseEvent = ({ status, data }) => {
@@ -49,6 +57,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+    socket.removeListener(E_CHAT, this.onChatEvent);
     socket.removeListener(E_AUTHORISE, this.onAuthoriseEvent);
     socket.removeListener(E_AUTHENTICATE, this.onAuthenticateEvent);
     socket.disconnect();
@@ -76,7 +85,8 @@ const props = (state) => ({
 
 const actions = (dispatch) => ({
   login: (data) => dispatch(loginUser(data)),
-  logout: () => dispatch(logoutUser())
+  logout: () => dispatch(logoutUser()),
+  addMessage: message => dispatch(addMessage(message))
 });
 
 export default connect(props, actions)(App);

@@ -163,6 +163,7 @@ header .logout-butt{
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .messenger{
   min-width: 360px;
@@ -204,4 +205,50 @@ header .logout-butt{
 .board .canvas{
   border: 1px solid #a3a3a3;
   flex-grow: 2;
+}
+
+.wrapper .panel-top{
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.panel-bottom{
+  display: flex;
+  justify-content: center;
+}
+.panel-top>.title{
+  display: inline-block;
+}
+.clear-all{
+  position: relative;
+  display:inline-block;
+  margin-left: auto;
+  margin-right: 0;
+  background: coral;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+}
+.clear-one{
+  position: relative;
+  display:inline-block;
+  border: 1px solid coral;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: #000;
+}
+.panel-top>.title>span{
+  font-size: 1.2em;
+  font-weight: 600;
+}
+.editor-wrapper{
+  width: 48%;
+  justify-content: space-between;
+}
+.editor{
+  height: 70vh;
+}
+.editor.html{
+  overflow-y: scroll;
+  padding: 15px;
 }

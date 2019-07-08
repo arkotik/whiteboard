@@ -3,7 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import {
   Home,
   Login,
-  Whiteboard
+  // Drawer,
+  Editor
 } from '../routes';
 import NoMatch from './NoMatch';
 
@@ -20,8 +21,15 @@ const routesConfig = [
     url: "/whiteboard",
     needAuth: true,
     title: 'Whiteboard',
-    component: Whiteboard
+    component: Editor
   }
+  // {
+  //   path: "/whiteboard",
+  //   url: "/whiteboard",
+  //   needAuth: true,
+  //   title: 'Whiteboard',
+  //   component: Drawer
+  // }
 ];
 
 const cb = ({ routes, path, strict }) => {
